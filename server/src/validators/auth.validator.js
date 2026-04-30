@@ -9,7 +9,8 @@ export const signupValidator = [
   body("role")
     .not()
     .exists()
-    .withMessage("Role cannot be set during signup")
+    .withMessage("Role cannot be set during signup"),
+  body("adminCode").optional().isString().trim().isLength({ min: 8 }).withMessage("Invalid admin code")
 ];
 
 export const loginValidator = [

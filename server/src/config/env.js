@@ -15,6 +15,9 @@ export const env = {
   mongoUri: process.env.MONGO_URI,
   jwtSecret: process.env.JWT_SECRET,
   jwtExpiresIn: process.env.JWT_EXPIRES_IN,
+  jwtIssuer: process.env.JWT_ISSUER || "team-task-manager-api",
+  jwtAudience: process.env.JWT_AUDIENCE || "team-task-manager-client",
   clientUrl: process.env.CLIENT_URL,
+  adminInviteCode: process.env.ADMIN_INVITE_CODE || "",
   nodeEnv: process.env.NODE_ENV || "development"
 };
