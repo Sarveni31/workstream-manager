@@ -42,7 +42,7 @@ const LoginPage = () => {
           Login
         </button>
       </form>
-      <p className="mt-4 text-sm text-slate-300">
+      <p className="mt-4 text-sm text-slate-600">
         No account? <Link className="underline" to="/signup">Sign up</Link>
       </p>
     </div>

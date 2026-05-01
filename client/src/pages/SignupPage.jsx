@@ -75,7 +75,7 @@ const SignupPage = () => {
           Create account
         </button>
       </form>
-      <p className="mt-4 text-sm text-slate-300">
+      <p className="mt-4 text-sm text-slate-600">
         Already have an account? <Link className="underline" to="/login">Login</Link>
       </p>
     </div>
