@@ -67,27 +67,27 @@ const ProjectsPage = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-semibold">Projects</h2>
+      <h2 className="page-title">Projects</h2>
       {error && (
-        <div className="rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>
+        <div className="app-card border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>
       )}
 
       {user?.role === "admin" && (
-        <form onSubmit={createProject} className="space-y-3 rounded-xl border bg-white p-4 shadow-sm">
+        <form onSubmit={createProject} className="app-card space-y-3 p-4">
           <h3 className="font-semibold text-slate-900">New project</h3>
           <input
-            className="w-full rounded border p-2"
+            className="app-input"
             placeholder="Project name"
             value={form.name}
             onChange={(event) => setForm({ ...form, name: event.target.value })}
           />
           <textarea
-            className="w-full rounded border p-2"
+            className="app-textarea"
             placeholder="Description"
             value={form.description}
             onChange={(event) => setForm({ ...form, description: event.target.value })}
           />
-          <button className="rounded bg-slate-900 px-4 py-2 text-white" type="submit">
+          <button className="btn-primary" type="submit">
             Create project
           </button>
         </form>
@@ -95,7 +95,7 @@ const ProjectsPage = () => {
 
       <div className="space-y-4">
         {projects.length === 0 && !error && (
-          <div className="rounded-xl border bg-white p-6 text-sm text-slate-700 shadow-sm">
+          <div className="app-card p-6 text-sm text-slate-700">
             {user?.role === "admin" ? (
               <>
                 <p className="font-medium text-slate-900">No projects yet.</p>
@@ -118,7 +118,7 @@ const ProjectsPage = () => {
           </div>
         )}
         {projects.map((project) => (
-          <article key={project._id} className="rounded-xl border bg-white p-4 shadow-sm">
+          <article key={project._id} className="app-card p-4">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
                 <h3 className="font-semibold text-slate-900">{project.name}</h3>
@@ -148,27 +148,27 @@ const ProjectsPage = () => {
               {user?.role === "admin" && (
                 <div className="flex flex-wrap gap-2">
                   <input
-                    className="flex-1 min-w-[140px] rounded border p-2 text-sm"
+                    className="app-input flex-1 min-w-[140px] text-sm"
                     placeholder="User ID to add"
                     value={memberInputs[project._id]?.add || ""}
                     onChange={(e) => setInput(project._id, "add", e.target.value)}
                   />
                   <button
                     type="button"
-                    className="rounded bg-slate-800 px-3 py-2 text-sm text-white"
+                    className="btn-primary !px-3 !py-2 text-sm"
                     onClick={() => addMember(project._id)}
                   >
                     Add
                   </button>
                   <input
-                    className="flex-1 min-w-[140px] rounded border p-2 text-sm"
+                    className="app-input flex-1 min-w-[140px] text-sm"
                     placeholder="User ID to remove"
                     value={memberInputs[project._id]?.remove || ""}
                     onChange={(e) => setInput(project._id, "remove", e.target.value)}
                   />
                   <button
                     type="button"
-                    className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800"
+                    className="btn-secondary border-red-200 bg-red-50 text-red-800 !px-3 !py-2 text-sm"
                     onClick={() => removeMember(project._id)}
                   >
                     Remove

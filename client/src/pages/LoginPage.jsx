@@ -19,29 +19,30 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="mx-auto mt-16 max-w-md rounded bg-white p-6 shadow">
-      <h2 className="mb-4 text-2xl font-semibold">Login</h2>
+    <div className="mx-auto mt-16 max-w-md app-card p-6">
+      <h2 className="page-title mb-1">Welcome back</h2>
+      <p className="page-subtitle mb-5">Login to continue managing projects and tasks.</p>
       <form className="space-y-4" onSubmit={onSubmit}>
         <input
-          className="w-full rounded border p-2"
+          className="app-input"
           placeholder="Email"
           type="email"
           value={form.email}
           onChange={(event) => setForm({ ...form, email: event.target.value })}
         />
         <input
-          className="w-full rounded border p-2"
+          className="app-input"
           placeholder="Password"
           type="password"
           value={form.password}
           onChange={(event) => setForm({ ...form, password: event.target.value })}
         />
         {error && <p className="text-sm text-red-600">{error}</p>}
-        <button className="w-full rounded bg-slate-900 py-2 text-white" type="submit">
+        <button className="btn-primary w-full" type="submit">
           Login
         </button>
       </form>
-      <p className="mt-4 text-sm">
+      <p className="mt-4 text-sm text-slate-600">
         No account? <Link className="underline" to="/signup">Sign up</Link>
       </p>
     </div>
