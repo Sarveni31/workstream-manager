@@ -54,12 +54,12 @@ const TasksPage = () => {
     loadProjects();
     loadUsers();
   }, [user?.role]);
-  const assignOptions = user?.role === "admin" ? users : selectedProject?.members || [];
 
   const selectedProject = useMemo(
     () => projects.find((p) => p._id === form.projectId),
     [projects, form.projectId]
   );
+  const assignOptions = user?.role === "admin" ? users : selectedProject?.members || [];
 
   const workflowForForm = useMemo(() => {
     const ws = selectedProject?.workflowStatuses;
