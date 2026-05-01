@@ -94,6 +94,29 @@ const ProjectsPage = () => {
       )}
 
       <div className="space-y-4">
+        {projects.length === 0 && !error && (
+          <div className="rounded-xl border bg-white p-6 text-sm text-slate-700 shadow-sm">
+            {user?.role === "admin" ? (
+              <>
+                <p className="font-medium text-slate-900">No projects yet.</p>
+                <p className="mt-1 text-slate-600">
+                  Create your first project using the form above, then add members using their MongoDB user ID.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="font-medium text-slate-900">No projects assigned to you yet.</p>
+                <p className="mt-1 text-slate-600">
+                  Ask an admin to add you to a project. Once added, it will appear here automatically.
+                </p>
+                <p className="mt-2 text-xs text-slate-500">
+                  Tip: An admin can add you using your user ID from the database. After they add you, log out and
+                  log in again if you don’t see it immediately.
+                </p>
+              </>
+            )}
+          </div>
+        )}
         {projects.map((project) => (
           <article key={project._id} className="rounded-xl border bg-white p-4 shadow-sm">
             <div className="flex flex-wrap items-start justify-between gap-2">

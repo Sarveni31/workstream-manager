@@ -156,12 +156,15 @@ const TasksPage = () => {
               </option>
             ))}
           </select>
-          <input
-            className="rounded border p-2"
-            type="datetime-local"
-            value={form.deadline}
-            onChange={(e) => setForm({ ...form, deadline: e.target.value })}
-          />
+          <label className="grid gap-1">
+            <span className="text-xs font-medium text-slate-700">Deadline</span>
+            <input
+              className="rounded border p-2"
+              type="datetime-local"
+              value={form.deadline}
+              onChange={(e) => setForm({ ...form, deadline: e.target.value })}
+            />
+          </label>
           <select
             className="rounded border p-2"
             value={form.priority}
