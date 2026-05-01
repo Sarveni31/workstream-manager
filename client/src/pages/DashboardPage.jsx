@@ -45,8 +45,8 @@ const DashboardPage = () => {
   const filteredTasks =
     selectedStatus === "All" ? tasks : tasks.filter((task) => task.status === selectedStatus);
 
-  if (loading) return <div className="app-card p-6">Loading dashboard...</div>;
-  if (error) return <div className="app-card bg-red-50 p-6 text-red-700">{error}</div>;
+  if (loading) return <div className="rounded bg-white p-6 shadow">Loading dashboard...</div>;
+  if (error) return <div className="rounded bg-red-50 p-6 text-red-700 shadow">{error}</div>;
 
   const cards = [
     { label: "Total", value: summary?.total ?? 0 },
@@ -58,13 +58,13 @@ const DashboardPage = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="page-title">Dashboard</h2>
-        <p className="page-subtitle">Track tasks, progress, and overdue items in one place.</p>
+        <h2 className="text-2xl font-semibold text-slate-900">Dashboard</h2>
+        <p className="text-sm text-slate-500">Track tasks, progress, and overdue items in one place.</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((item) => (
-          <div key={item.label} className="app-card p-4">
+          <div key={item.label} className="rounded-xl border bg-white p-4 shadow-sm">
             <p className="text-sm text-slate-500">{item.label}</p>
             <p className="text-2xl font-bold text-slate-900">{item.value}</p>
           </div>
@@ -72,7 +72,7 @@ const DashboardPage = () => {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <section className="app-card p-4 lg:col-span-2">
+        <section className="rounded-xl border bg-white p-4 shadow-sm lg:col-span-2">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <h3 className="text-lg font-semibold text-slate-900">Task List</h3>
             <div className="flex flex-wrap gap-2">
@@ -98,7 +98,7 @@ const DashboardPage = () => {
           ) : (
             <ul className="space-y-3">
               {filteredTasks.map((task) => (
-                <li key={task._id} className="rounded-xl border border-slate-200 p-3">
+                <li key={task._id} className="rounded-lg border p-3">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <p className="font-medium text-slate-900">{task.title}</p>
                     <span className="rounded bg-slate-100 px-2 py-1 text-xs text-slate-700">
@@ -117,7 +117,7 @@ const DashboardPage = () => {
           )}
         </section>
 
-        <section className="app-card p-4">
+        <section className="rounded-xl border bg-white p-4 shadow-sm">
           <h3 className="mb-3 text-lg font-semibold text-slate-900">Overdue Tasks</h3>
           {overdueTasks.length === 0 ? (
             <p className="text-sm text-slate-500">No overdue tasks.</p>

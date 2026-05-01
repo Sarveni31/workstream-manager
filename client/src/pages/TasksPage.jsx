@@ -121,31 +121,31 @@ const TasksPage = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="page-title">Tasks</h2>
+      <h2 className="text-2xl font-semibold">Tasks</h2>
       {error && (
-        <div className="app-card border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>
+        <div className="rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>
       )}
 
-      <section className="app-card p-4">
+      <section className="rounded-xl border bg-white p-4 shadow-sm">
         <h3 className="mb-3 text-lg font-semibold text-slate-900">Create task</h3>
         <p className="mb-3 text-xs text-slate-500">
           Admins and project members can create tasks. Assignee must belong to the project.
         </p>
         <form className="grid gap-3 sm:grid-cols-2" onSubmit={createTask}>
           <input
-            className="app-input sm:col-span-2"
+            className="rounded border p-2 sm:col-span-2"
             placeholder="Title"
             value={form.title}
             onChange={(e) => setForm({ ...form, title: e.target.value })}
           />
           <textarea
-            className="app-textarea sm:col-span-2"
+            className="rounded border p-2 sm:col-span-2"
             placeholder="Description (optional)"
             value={form.description}
             onChange={(e) => setForm({ ...form, description: e.target.value })}
           />
           <select
-            className="app-select"
+            className="rounded border p-2"
             value={form.projectId}
             onChange={(e) => setForm({ ...form, projectId: e.target.value, assignedTo: "" })}
           >
@@ -157,7 +157,7 @@ const TasksPage = () => {
             ))}
           </select>
           <select
-            className="app-select"
+            className="rounded border p-2"
             value={form.assignedTo}
             onChange={(e) => setForm({ ...form, assignedTo: e.target.value })}
             disabled={user?.role !== "admin" && !selectedProject}
@@ -172,14 +172,14 @@ const TasksPage = () => {
           <label className="grid gap-1">
             <span className="text-xs font-medium text-slate-700">Deadline</span>
             <input
-              className="app-input"
+              className="rounded border p-2"
               type="datetime-local"
               value={form.deadline}
               onChange={(e) => setForm({ ...form, deadline: e.target.value })}
             />
           </label>
           <select
-            className="app-select"
+            className="rounded border p-2"
             value={form.priority}
             onChange={(e) => setForm({ ...form, priority: e.target.value })}
           >
@@ -189,7 +189,7 @@ const TasksPage = () => {
           </select>
           {form.projectId && (
             <select
-              className="app-select sm:col-span-2"
+              className="rounded border p-2 sm:col-span-2"
               value={form.status || workflowForForm[0]}
               onChange={(e) => setForm({ ...form, status: e.target.value })}
             >
@@ -201,7 +201,7 @@ const TasksPage = () => {
             </select>
           )}
           <button
-            className="btn-primary sm:col-span-2"
+            className="rounded bg-slate-900 px-4 py-2 text-white sm:col-span-2"
             type="submit"
           >
             Create task
@@ -218,7 +218,7 @@ const TasksPage = () => {
             user?.role === "admin" || (me && assigneeId && String(assigneeId) === String(me));
 
           return (
-            <article key={task._id} className="app-card p-4">
+            <article key={task._id} className="rounded-xl border bg-white p-4 shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
                   <h3 className="font-semibold">{task.title}</h3>
@@ -228,7 +228,7 @@ const TasksPage = () => {
                 </div>
                 {canChangeStatus ? (
                   <select
-                    className="app-select"
+                    className="rounded border p-2"
                     value={task.status}
                     onChange={(event) => updateStatus(task._id, event.target.value)}
                   >
