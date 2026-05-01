@@ -45,9 +45,14 @@ const SignupPage = () => {
           className="w-full rounded border p-2"
           placeholder="Password"
           type="password"
+          minLength={8}
+          maxLength={64}
           value={form.password}
           onChange={(event) => setForm({ ...form, password: event.target.value })}
         />
+        <p className="text-xs text-slate-500">
+          Use 8-64 characters with uppercase, lowercase, number, and special character.
+        </p>
         <label className="flex items-center gap-2 text-sm text-slate-700">
           <input
             type="checkbox"

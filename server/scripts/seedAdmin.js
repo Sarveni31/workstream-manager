@@ -2,6 +2,8 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import { User } from "../src/models/User.js";
 
+const STRONG_PASSWORD_RULE = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$/;
+
 const getArgValue = (name) => {
   const key = `--${name}`;
   const index = process.argv.indexOf(key);
@@ -21,8 +23,10 @@ const run = async () => {
   if (!email || !password) {
     throw new Error("Usage: npm run seed:admin -- --email <email> --password <password> [--name <name>]");
   }
-  if (password.length < 8) {
-    throw new Error("Password must be at least 8 characters");
+  if (!STRONG_PASSWORD_RULE.test(password)) {
+    throw new Error(
+      "Password must be 8-64 chars and include uppercase, lowercase, number, and special character"
+    );
   }
 
   await mongoose.connect(mongoUri);
