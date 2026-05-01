@@ -8,6 +8,7 @@ const TasksPage = () => {
   const { user } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     title: "",
@@ -38,10 +39,22 @@ const TasksPage = () => {
     }
   };
 
+  const loadUsers = async () => {
+    if (user?.role !== "admin") return;
+    try {
+      const { data } = await api.get("/users");
+      setUsers(data.users || []);
+    } catch {
+      /* do not block page if users endpoint fails */
+    }
+  };
+
   useEffect(() => {
     loadTasks();
     loadProjects();
-  }, []);
+    loadUsers();
+  }, [user?.role]);
+  const assignOptions = user?.role === "admin" ? users : selectedProject?.members || [];
 
   const selectedProject = useMemo(
     () => projects.find((p) => p._id === form.projectId),
@@ -147,10 +160,10 @@ const TasksPage = () => {
             className="rounded border p-2"
             value={form.assignedTo}
             onChange={(e) => setForm({ ...form, assignedTo: e.target.value })}
-            disabled={!selectedProject}
+            disabled={user?.role !== "admin" && !selectedProject}
           >
             <option value="">Assign to…</option>
-            {(selectedProject?.members || []).map((m) => (
+            {assignOptions.map((m) => (
               <option key={m._id || m} value={m._id || m}>
                 {m.name ? `${m.name} (${m.email})` : String(m._id || m)}
               </option>

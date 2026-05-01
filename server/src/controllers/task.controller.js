@@ -12,8 +12,12 @@ export const createTask = catchAsync(async (req, res) => {
   const projectDoc = req.project;
 
   const isAssigneeInProject = projectDoc.members.some((member) => member.toString() === assignedTo);
-  if (!isAssigneeInProject) {
+  if (!isAssigneeInProject && req.user.role !== "admin") {
     throw new ApiError(StatusCodes.BAD_REQUEST, "Assigned user must be a member of the project");
+  }
+  if (!isAssigneeInProject && req.user.role === "admin") {
+    projectDoc.members.push(assignedTo);
+    await projectDoc.save();
   }
 
   const workflow = normalizedWorkflowStatuses(projectDoc);
@@ -63,8 +67,12 @@ export const updateTaskByAdmin = catchAsync(async (req, res) => {
 
   if (assignedTo !== undefined) {
     const inProject = projectDoc.members.some((m) => m.toString() === assignedTo);
-    if (!inProject) {
+    if (!inProject && req.user.role !== "admin") {
       throw new ApiError(StatusCodes.BAD_REQUEST, "Assignee must be a project member");
+    }
+    if (!inProject && req.user.role === "admin") {
+      projectDoc.members.push(assignedTo);
+      await projectDoc.save();
     }
     task.assignedTo = assignedTo;
   }
