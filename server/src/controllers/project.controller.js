@@ -5,7 +5,18 @@ import { catchAsync } from "../utils/catchAsync.js";
 import { ApiError } from "../utils/ApiError.js";
 
 export const createProject = catchAsync(async (req, res) => {
-  const { name, description, members = [] } = req.body;
+  const {
+    name,
+    description,
+    members = [],
+    status,
+    priority,
+    deadline,
+    tags,
+    visibility,
+    workflowStatuses,
+    completedStatuses
+  } = req.body;
   const uniqueMembers = [...new Set([req.user._id.toString(), ...members])].map(
     (id) => new mongoose.Types.ObjectId(id)
   );
@@ -14,7 +25,14 @@ export const createProject = catchAsync(async (req, res) => {
     name,
     description,
     admin: req.user._id,
-    members: uniqueMembers
+    members: uniqueMembers,
+    status: status || "Active",
+    priority: priority || "medium",
+    deadline: deadline ?? null,
+    tags: Array.isArray(tags) ? tags : [],
+    visibility: visibility || "team",
+    workflowStatuses: Array.isArray(workflowStatuses) ? workflowStatuses : undefined,
+    completedStatuses: Array.isArray(completedStatuses) ? completedStatuses : undefined
   });
 
   res.status(StatusCodes.CREATED).json({ project });
@@ -28,6 +46,32 @@ export const getProjects = catchAsync(async (req, res) => {
 
 export const getProjectById = catchAsync(async (req, res) => {
   const project = await req.project.populate("members admin", "name email role");
+  res.status(StatusCodes.OK).json({ project });
+});
+
+export const updateProject = catchAsync(async (req, res) => {
+  const {
+    description,
+    status,
+    priority,
+    deadline,
+    tags,
+    visibility,
+    workflowStatuses,
+    completedStatuses
+  } = req.body;
+  const project = req.project;
+
+  if (typeof description === "string") project.description = description;
+  if (status) project.status = status;
+  if (priority) project.priority = priority;
+  if (deadline !== undefined) project.deadline = deadline ?? null;
+  if (Array.isArray(tags)) project.tags = tags;
+  if (visibility) project.visibility = visibility;
+  if (Array.isArray(workflowStatuses)) project.workflowStatuses = workflowStatuses;
+  if (Array.isArray(completedStatuses)) project.completedStatuses = completedStatuses;
+
+  await project.save();
   res.status(StatusCodes.OK).json({ project });
 });
 

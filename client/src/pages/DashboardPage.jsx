@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import api from "../lib/api";
 
-const STATUS_FILTERS = ["All", "Todo", "In Progress", "Done"];
+const DEFAULT_STATUSES = ["Todo", "In Progress", "Done"];
 
 const DashboardPage = () => {
   const [summary, setSummary] = useState(null);
@@ -32,11 +32,28 @@ const DashboardPage = () => {
     loadDashboard();
   }, []);
 
+  const statusFilters = useMemo(() => {
+    const fromTasks = tasks.flatMap((t) => {
+      const ws = t.project?.workflowStatuses;
+      return Array.isArray(ws) && ws.length ? ws : [t.status].filter(Boolean);
+    });
+    const fromSummary = summary?.statusBreakdown?.map((row) => row.status) || [];
+    const uniq = [...new Set([...fromTasks, ...fromSummary, ...DEFAULT_STATUSES])];
+    return ["All", ...uniq];
+  }, [tasks, summary]);
+
   const filteredTasks =
     selectedStatus === "All" ? tasks : tasks.filter((task) => task.status === selectedStatus);
 
   if (loading) return <div className="rounded bg-white p-6 shadow">Loading dashboard...</div>;
   if (error) return <div className="rounded bg-red-50 p-6 text-red-700 shadow">{error}</div>;
+
+  const cards = [
+    { label: "Total", value: summary?.total ?? 0 },
+    { label: "Pending", value: summary?.pending ?? 0 },
+    { label: "Completed", value: summary?.completed ?? 0 },
+    { label: "Overdue", value: summary?.overdue ?? 0 }
+  ];
 
   return (
     <div className="space-y-6">
@@ -45,14 +62,8 @@ const DashboardPage = () => {
         <p className="text-sm text-slate-500">Track tasks, progress, and overdue items in one place.</p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        {[
-          { label: "Total", value: summary?.total || 0 },
-          { label: "Todo", value: summary?.todo || 0 },
-          { label: "In Progress", value: summary?.inProgress || 0 },
-          { label: "Done", value: summary?.done || 0 },
-          { label: "Overdue", value: summary?.overdue || 0 }
-        ].map((item) => (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {cards.map((item) => (
           <div key={item.label} className="rounded-xl border bg-white p-4 shadow-sm">
             <p className="text-sm text-slate-500">{item.label}</p>
             <p className="text-2xl font-bold text-slate-900">{item.value}</p>
@@ -65,7 +76,7 @@ const DashboardPage = () => {
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <h3 className="text-lg font-semibold text-slate-900">Task List</h3>
             <div className="flex flex-wrap gap-2">
-              {STATUS_FILTERS.map((status) => (
+              {statusFilters.map((status) => (
                 <button
                   key={status}
                   type="button"

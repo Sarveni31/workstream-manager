@@ -6,8 +6,15 @@ const taskSchema = new mongoose.Schema(
     description: { type: String, trim: true, default: "" },
     status: {
       type: String,
-      enum: ["Todo", "In Progress", "Done"],
+      required: true,
+      trim: true,
+      maxlength: 80,
       default: "Todo"
+    },
+    priority: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "medium"
     },
     assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     project: { type: mongoose.Schema.Types.ObjectId, ref: "Project", required: true },
