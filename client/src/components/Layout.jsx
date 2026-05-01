@@ -6,14 +6,14 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
+      <header className="sticky top-0 z-20 border-b border-slate-700/70 bg-slate-950/75 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <h1 className="text-lg font-semibold tracking-tight text-slate-900">Team Task Manager</h1>
+          <h1 className="text-lg font-semibold tracking-tight text-cyan-300">Ethara Task Manager</h1>
           <nav className="flex items-center gap-2 text-sm">
             <Link className="btn-secondary !px-3 !py-1.5" to="/dashboard">Dashboard</Link>
             <Link className="btn-secondary !px-3 !py-1.5" to="/projects">Projects</Link>
             <Link className="btn-secondary !px-3 !py-1.5" to="/tasks">Tasks</Link>
-            <span className="ml-2 hidden text-slate-500 sm:block">{user?.name}</span>
+            <span className="ml-2 hidden text-slate-400 sm:block">{user?.name}</span>
             <button onClick={logout} className="btn-primary !px-3 !py-1.5">
               Logout
             </button>
